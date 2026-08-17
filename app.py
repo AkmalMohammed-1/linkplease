@@ -222,7 +222,8 @@ class DeliveryWorker:
                     await asyncio.wait_for(self.stop_event.wait(), timeout=WORKER_POLL_SECONDS)
             except asyncio.TimeoutError:
                 pass
-            except Exception:
+            except Exception as exc:
+                print(f"WORKER ERROR: {type(exc).__name__}: {exc}", flush=True)
                 await asyncio.sleep(1)
 
     async def process_one(self) -> bool:
